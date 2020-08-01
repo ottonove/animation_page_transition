@@ -39,6 +39,14 @@ export default {
     next: function(id){
       this.picId = id
       this.$router.push("/"+id)
+    },
+    getAbsolutePosition(elm){
+      const {left, top} = elm.getBoundingClientRect();
+      const {left: bleft, top: btop} = document.body.getBoundingClientRect();
+      return {
+        left: left - bleft,
+        top: top - btop - 64 // appbarのheightを引く,
+      }
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -47,23 +55,23 @@ export default {
         return x.id === String(this.picId)/* to.params.id */
     });
 
-    console.log("component:",component)
-    let node = component;
-
-    const itemRect = node.getBoundingClientRect();
-    console.log("itemRect:",itemRect)
+    /* console.log("component:",component)
+    let node = component; */
 
     // 遷移前の画像の位置を取得
     const src = component.src;
     console.log("src:",src)
 
-    const boxRect = this.$refs.box.getBoundingClientRect()
-    console.log("boxRect:",boxRect)
+    const pos = this.getAbsolutePosition(component)
+    console.log(pos)
+
+    /* const boxRect = this.$refs.box.getBoundingClientRect()
+    console.log("boxRect:",boxRect) */
 
     const styleObj = {
-      top: `${itemRect.top/*  - boxRect.top */}px`,
-      left: `${itemRect.left/*  - boxRect.left */}px`,
-      width: `${node.clientWidth}px`,
+      top: `${pos.top/*  - boxRect.top */}px`,
+      left: `${pos.left/*  - boxRect.left */}px`,
+      width: `${component.clientWidth}px`,
       //opacity: 0
     }
 
@@ -83,8 +91,6 @@ export default {
         console.log("scrollTop complete")
       }
     });
-
-    console.log("node:", node)
 
     // ページの不透明度を0にアニメーション
     anime({
