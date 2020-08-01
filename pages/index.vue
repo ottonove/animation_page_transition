@@ -10,7 +10,7 @@
         :key="i"
         class="my-16"
       >
-        <img :src=pic ref="item" :id=i+1 />
+        <img :src=pic ref="item" :id=i+1 @click="next(i)" />
       </v-col>
 
       <v-btn to="/inspire" class="my-16">inspire</v-btn>
@@ -27,17 +27,24 @@ import anime from 'animejs/lib/anime.es.js'
 export default {
   data () {
     return {
-      picList: ["img01@2x.jpg","img02@2x.jpg"]
+      picList: ["img01@2x.jpg","img02@2x.jpg"],
+      picId: null
     }
   },
   components: {
     Logo,
     VuetifyLogo
   },
+  methods:{
+    next: function(id){
+      this.picId = id
+      this.$router.push("/"+id)
+    }
+  },
   beforeRouteLeave(to, from, next) {
     // クリックした記事の情報を取得
     const component = this.$refs.item.find((x) => {
-        return x.id === String(2)/* to.params.id */
+        return x.id === String(this.picId)/* to.params.id */
     });
 
     console.log("component:",component)
