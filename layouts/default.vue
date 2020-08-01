@@ -60,6 +60,13 @@
     <v-main>
       <v-container>
         <nuxt />
+        <img
+          :src="src"
+          :style="styleObj"
+          v-if="styleObj.width !== ''"
+          class="tmp"
+          alt=""
+        >
       </v-container>
     </v-main>
     <v-navigation-drawer
@@ -110,7 +117,19 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'Vuetify.js',
+      src: '',
+      styleObj: {}
+    }
+  },
+  created(){
+    this.$nuxt.$on('layoutImage', this.layoutImageAAA)
+  },
+  methods: {
+    layoutImageAAA({src, styleObj}) {
+      this.src = src;
+      this.styleObj = styleObj;
+      console.log("defaultMethod called")
     }
   }
 }

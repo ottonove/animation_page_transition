@@ -49,20 +49,21 @@ export default {
     const src = component.src;
     console.log("src:",src)
 
-    /* const styleObj = {
-      top: `${itemRect.top - listRect.top}px`,
-      left: `${itemRect.left - listRect.left}px`,
+    const styleObj = {
+      top: `${itemRect.top/*  - listRect.top */}px`,
+      left: `${itemRect.left/*  - listRect.left */}px`,
       width: `${node.clientWidth}px`
-    } */
+    }
 
     node.style.opacity = 0;
 
-    /*
     // ダミー画像に位置と画像のURLを渡す
     this.$nuxt.$emit('layoutImage', {
       src: src,
       styleObj: styleObj
     });
+
+    console.log("ここまで完了")
 
     // ページを上部に移動
     anime({
@@ -74,12 +75,12 @@ export default {
 
     // ページの不透明度を0にアニメーション
     anime({
-      targets: this.$refs.list,
+      targets: this,//this.$refs.list,
       opacity: [1, 0],
       easing: 'easeInOutQuart',
       duration: 800,
       complete: () => next()
-    }); */
+    });
   }
 }
 
