@@ -5,10 +5,10 @@
     align-center
   >
       <v-col
-        v-for="(item, i) in itemList"
+        v-for="(pic, i) in picList"
         :key="i"
       >
-        <img :src=item ref="item" :id=i />
+        <img :src=pic ref="item" :id=i+1 />
       </v-col>
   </v-layout>
 </template>
@@ -23,7 +23,7 @@ import anime from 'animejs/lib/anime.es.js'
 export default {
   data () {
     return {
-      itemList: ["/_nuxt/static/img01@2x.jpg","/_nuxt/static/img02@2x.jpg"]
+      picList: ["img01@2x.jpg","img02@2x.jpg"]
     }
   },
   components: {
