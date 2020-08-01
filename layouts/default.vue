@@ -64,7 +64,7 @@
           :src="src"
           :style="styleObj"
           v-if="styleObj.width !== ''"
-          class="tmp"
+          class="dummy_image"
           alt=""
         >
       </v-container>
@@ -134,3 +134,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.dummy_image{
+  position: absolute;
+}
+</style>
