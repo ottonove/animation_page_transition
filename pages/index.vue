@@ -61,11 +61,17 @@ export default {
     console.log("boxRect:",boxRect)
 
     const styleObj = {
-      top: `${itemRect.top - boxRect.top}px`,
-      left: `${itemRect.left - boxRect.left}px`,
+      top: `${itemRect.top/*  - boxRect.top */}px`,
+      left: `${itemRect.left/*  - boxRect.left */}px`,
       width: `${node.clientWidth}px`,
       //opacity: 0
     }
+
+    // ダミー画像に位置と画像のURLを渡す
+    this.$nuxt.$emit('layoutImage', {
+      src: src,
+      styleObj: styleObj
+    });
 
     // ページを上部に移動
     anime({
@@ -87,11 +93,6 @@ export default {
       easing: 'easeInOutQuart',
       duration: 800,
       complete: ()=>{
-        // ダミー画像に位置と画像のURLを渡す
-        this.$nuxt.$emit('layoutImage', {
-          src: src,
-          styleObj: styleObj
-        });
         next()
       }
     });
