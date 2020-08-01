@@ -7,9 +7,12 @@
       <v-col
         v-for="(pic, i) in picList"
         :key="i"
+        class="my-16"
       >
         <img :src=pic ref="item" :id=i+1 />
       </v-col>
+
+      <v-btn to="/inspire" class="my-16">inspire</v-btn>
   </v-layout>
 </template>
 
@@ -31,17 +34,14 @@ export default {
     VuetifyLogo
   },
   beforeRouteLeave(to, from, next) {
-    console.log(this.$refs)
     // クリックした記事の情報を取得
     const component = this.$refs.item.find((x) => {
-      console.log("x:",x)
-      return x.id === String(2)/* to.params.id */
+        return x.id === String(2)/* to.params.id */
     });
 
     console.log("component:",component)
-    const node = component;
+    let node = component;
 
-    // const listRect = this.$refs.list.getBoundingClientRect();
     const itemRect = node.getBoundingClientRect();
     console.log("itemRect:",itemRect)
 
@@ -55,31 +55,35 @@ export default {
       width: `${node.clientWidth}px`
     }
 
-    node.style.opacity = 0;
-
     // ダミー画像に位置と画像のURLを渡す
     this.$nuxt.$emit('layoutImage', {
       src: src,
       styleObj: styleObj
     });
 
-    console.log("ここまで完了")
-
     // ページを上部に移動
     anime({
       targets: '#__nuxt',
       scrollTop: 0,
       easing: 'easeInOutQuart',
-      duration: 800
+      duration: 800,
+      complete: () => {
+        console.log("scrollTop complete")
+      }
     });
 
+    console.log("node:", node)
+    
     // ページの不透明度を0にアニメーション
     anime({
-      targets: this,//this.$refs.list,
+      targets: node,//this.$refs.list,
       opacity: [1, 0],
       easing: 'easeInOutQuart',
       duration: 800,
-      complete: () => next()
+      complete: () => {
+        console.log("node.style.opacity:",node)
+        next()
+      }
     });
   }
 }
