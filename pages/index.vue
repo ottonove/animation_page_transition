@@ -4,83 +4,12 @@
     justify-center
     align-center
   >
-    <v-flex
-      xs12
-      sm8
-      md6
-    >
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
+      <v-col
+        v-for="(item, i) in itemList"
+        :key="i"
+      >
+        <img :src=item ref="item" :id=i />
+      </v-col>
   </v-layout>
 </template>
 
@@ -88,10 +17,65 @@
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
 
+import anime from 'animejs/lib/anime.es.js'
+
+
 export default {
+  data () {
+    return {
+      itemList: ["/_nuxt/static/img01@2x.jpg","/_nuxt/static/img02@2x.jpg"]
+    }
+  },
   components: {
     Logo,
     VuetifyLogo
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log(this.$refs)
+    // クリックした記事の情報を取得
+    const component = this.$refs.item.find((x) => {
+      console.log("x:",x)
+      //return x.item.id === parseInt(to.params.id);
+    });
+
+    const node = component.$refs.img;
+
+    const listRect = this.$refs.list.getBoundingClientRect();
+    const itemRect = node.getBoundingClientRect();
+
+    // 遷移前の画像の位置を取得
+    const src = this.base + component.item.src;
+    const styleObj = {
+      top: `${itemRect.top - listRect.top}px`,
+      left: `${itemRect.left - listRect.left}px`,
+      width: `${node.clientWidth}px`
+    }
+
+    node.style.opacity = 0;
+
+    // ダミー画像に位置と画像のURLを渡す
+    this.$nuxt.$emit('layoutImage', {
+      src: src,
+      styleObj: styleObj
+    });
+
+    // ページを上部に移動
+    anime({
+      targets: '#__nuxt',
+      scrollTop: 0,
+      easing: 'easeInOutQuart',
+      duration: 800
+    });
+
+    // ページの不透明度を0にアニメーション
+    anime({
+      targets: this.$refs.list,
+      opacity: [1, 0],
+      easing: 'easeInOutQuart',
+      duration: 800,
+      complete: () => next()
+    });
   }
 }
+
 </script>

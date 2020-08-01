@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "animejs": "^3.2.0",
     "nuxt": "^2.14.0"
   },
   "devDependencies": {
