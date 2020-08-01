@@ -3,6 +3,7 @@
     column
     justify-center
     align-center
+    ref="box"
   >
       <v-col
         v-for="(pic, i) in picList"
@@ -49,17 +50,15 @@ export default {
     const src = component.src;
     console.log("src:",src)
 
-    const styleObj = {
-      top: `${itemRect.top/*  - listRect.top */}px`,
-      left: `${itemRect.left/*  - listRect.left */}px`,
-      width: `${node.clientWidth}px`
-    }
+    const boxRect = this.$refs.box.getBoundingClientRect()
+    console.log("boxRect:",boxRect)
 
-    // ダミー画像に位置と画像のURLを渡す
-    this.$nuxt.$emit('layoutImage', {
-      src: src,
-      styleObj: styleObj
-    });
+    const styleObj = {
+      top: `${itemRect.top - boxRect.top}px`,
+      left: `${itemRect.left - boxRect.left}px`,
+      width: `${node.clientWidth}px`,
+      //opacity: 0
+    }
 
     // ページを上部に移動
     anime({
@@ -73,15 +72,19 @@ export default {
     });
 
     console.log("node:", node)
-    
+
     // ページの不透明度を0にアニメーション
     anime({
-      targets: node,//this.$refs.list,
+      targets: this.$refs.box,//this.$refs.list,
       opacity: [1, 0],
       easing: 'easeInOutQuart',
       duration: 800,
-      complete: () => {
-        console.log("node.style.opacity:",node)
+      complete: ()=>{
+        // ダミー画像に位置と画像のURLを渡す
+        this.$nuxt.$emit('layoutImage', {
+          src: src,
+          styleObj: styleObj
+        });
         next()
       }
     });
