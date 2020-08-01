@@ -35,24 +35,29 @@ export default {
     // クリックした記事の情報を取得
     const component = this.$refs.item.find((x) => {
       console.log("x:",x)
-      //return x.item.id === parseInt(to.params.id);
+      return x.id === String(2)/* to.params.id */
     });
 
-    const node = component.$refs.img;
+    console.log("component:",component)
+    const node = component;
 
-    const listRect = this.$refs.list.getBoundingClientRect();
+    // const listRect = this.$refs.list.getBoundingClientRect();
     const itemRect = node.getBoundingClientRect();
+    console.log("itemRect:",itemRect)
 
     // 遷移前の画像の位置を取得
-    const src = this.base + component.item.src;
-    const styleObj = {
+    const src = component.src;
+    console.log("src:",src)
+
+    /* const styleObj = {
       top: `${itemRect.top - listRect.top}px`,
       left: `${itemRect.left - listRect.left}px`,
       width: `${node.clientWidth}px`
-    }
+    } */
 
     node.style.opacity = 0;
 
+    /*
     // ダミー画像に位置と画像のURLを渡す
     this.$nuxt.$emit('layoutImage', {
       src: src,
@@ -74,7 +79,7 @@ export default {
       easing: 'easeInOutQuart',
       duration: 800,
       complete: () => next()
-    });
+    }); */
   }
 }
 
