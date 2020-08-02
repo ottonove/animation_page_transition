@@ -3,7 +3,7 @@
     column
     justify-center
     align-center
-    ref="box"
+    ref="list"
   >
       <v-col
         v-for="(pic, i) in picList"
@@ -13,7 +13,6 @@
         <img :src=pic ref="item" :id=i @click="next(i)" width="300" />
       </v-col>
 
-      <v-btn to="/inspire" class="my-16">inspire</v-btn>
   </v-layout>
 </template>
 
@@ -52,27 +51,20 @@ export default {
   beforeRouteLeave(to, from, next) {
     // クリックした記事の情報を取得
     const component = this.$refs.item.find((x) => {
-        return x.id === String(this.picId)/* to.params.id */
+        return x.id === String(this.picId)
     });
-
-    /* console.log("component:",component)
-    let node = component; */
 
     // 遷移前の画像の位置を取得
     const src = component.src;
     console.log("src:",src)
 
-    const pos = this.getAbsolutePosition(component,64) // 64 = appbarHeight
+    const pos = this.getAbsolutePosition(component,64) // 64 は appbarHeight。
     console.log(pos)
 
-    /* const boxRect = this.$refs.box.getBoundingClientRect()
-    console.log("boxRect:",boxRect) */
-
     const styleObj = {
-      top: `${pos.top/*  - boxRect.top */}px`,
-      left: `${pos.left/*  - boxRect.left */}px`,
+      top: `${pos.top}px`,
+      left: `${pos.left}px`,
       width: `${component.clientWidth}px`,
-      //opacity: 0
     }
 
     // ダミー画像に位置と画像のURLを渡す
@@ -94,7 +86,7 @@ export default {
 
     // ページの不透明度を0にアニメーション
     anime({
-      targets: this.$refs.box,//this.$refs.list,
+      targets: this.$refs.list,
       opacity: [1, 0],
       easing: 'easeInOutQuart',
       duration: 800,
