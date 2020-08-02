@@ -10,7 +10,7 @@
         :key="i"
         class="my-16"
       >
-        <img :src=pic ref="item" :id=i @click="next(i)" />
+        <img :src=pic ref="item" :id=i @click="next(i)" width="300" />
       </v-col>
 
       <v-btn to="/inspire" class="my-16">inspire</v-btn>

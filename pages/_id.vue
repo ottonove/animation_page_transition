@@ -3,7 +3,7 @@
     <h1>idとpassパラメータ取得</h1>
     <p>{{ id }}</p>
     <p>{{ pass }}</p>
-    <img src="img01@2x.jpg" ref="img">
+    <img src="img01@2x.jpg" ref="img" width="800">
   </div>
 </template>
 
