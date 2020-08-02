@@ -96,6 +96,8 @@
 </template>
 
 <script>
+import anime from 'animejs/lib/anime.es.js'
+
 export default {
   data () {
     return {
@@ -124,12 +126,32 @@ export default {
   },
   created(){
     this.$nuxt.$on('layoutImage', this.layoutImageAAA)
+    this.$nuxt.$on('layoutImageMove', this.layoutImageMove)
   },
   methods: {
     layoutImageAAA({src, styleObj}) {
       this.src = src;
       this.styleObj = styleObj;
       console.log("defaultMethod called")
+    },
+    layoutImageMove({node, styleObj}) {
+      anime({
+        targets: this.styleObj,
+        top: styleObj.top,
+        left: styleObj.left,
+        width: styleObj.width,
+        easing: 'easeInOutQuart',
+        duration: 800,
+        complete: () => {
+          console.log("layoutImageMove called")
+          node.style.opacity = 1;
+          this.styleObj = {
+            top: '',
+            left: '',
+            width: ''
+          }
+        }
+      });
     }
   }
 }
