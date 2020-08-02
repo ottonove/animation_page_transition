@@ -20,7 +20,17 @@ export default {
   beforeRouteEnter(to, from, next) {
     if(from.name === null) {
       next(vm => {
-          vm.styleObj.opacity = 1;
+          //vm.styleObj.opacity = 1;
+          console.log("this:",vm)
+          anime({
+            targets: vm.$refs.detail,
+            opacity: [0, 1],
+            easing: 'easeInOutQuart',
+            duration: 800,
+            complete: ()=>{
+              console.log("detail show complete")
+            }
+          })
       });
     }
     else {
@@ -58,18 +68,18 @@ export default {
           styleObj: styleObj,
           node: node
         })
-      )
-
-      // ページの不透明度を1にする
-      anime({
-        targets: this.$refs.detail,
-        opacity: [0, 1],
-        easing: 'easeInOutQuart',
-        duration: 800,
-        complete: ()=>{
-          console.log("detail show complete")
-        }
-      });
+      ).then(()=>{
+        // ページの不透明度を1にする
+        anime({
+          targets: this.$refs.detail,
+          opacity: [0, 1],
+          easing: 'easeInOutQuart',
+          duration: 800,
+          complete: ()=>{
+            console.log("detail show complete")
+          }
+        });
+      })
     }
   }
 }

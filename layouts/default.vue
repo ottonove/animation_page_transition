@@ -125,11 +125,11 @@ export default {
     }
   },
   created(){
-    this.$nuxt.$on('layoutImage', this.layoutImageAAA)
+    this.$nuxt.$on('layoutImage', this.layoutImage)
     this.$nuxt.$on('layoutImageMove', this.layoutImageMove)
   },
   methods: {
-    layoutImageAAA({src, styleObj}) {
+    layoutImage({src, styleObj}) {
       this.src = src;
       this.styleObj = styleObj;
       console.log("defaultMethod called")
