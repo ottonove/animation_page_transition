@@ -27,7 +27,7 @@ import anime from 'animejs/lib/anime.es.js'
 export default {
   data () {
     return {
-      picList: ["img01@2x.jpg","img02@2x.jpg"],
+      picList: ["img01@2x.jpg", "img02@2x.jpg", "img03@2x.jpg", "img04@2x.jpg", "img05@2x.jpg"],
       picId: null
     }
   },

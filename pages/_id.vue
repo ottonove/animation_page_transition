@@ -3,7 +3,7 @@
     <h1>idとpassパラメータ取得</h1>
     <p>{{ id }}</p>
     <p>{{ pass }}</p>
-    <img src="img01@2x.jpg" ref="img" width="800">
+    <img :src=picList[this.id] ref="img" width="800">
   </div>
 </template>
 
@@ -14,7 +14,8 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      pass: this.$route.params.pass
+      pass: this.$route.params.pass,
+      picList: ["img01@2x.jpg", "img02@2x.jpg", "img03@2x.jpg", "img04@2x.jpg", "img05@2x.jpg"]
     }
   },
   beforeRouteEnter(to, from, next) {
