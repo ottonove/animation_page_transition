@@ -18,3 +18,9 @@ $ yarn generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+---
+
+## reference web site
+
+- https://b-risk.jp/blog/2019/12/nuxt-js/
