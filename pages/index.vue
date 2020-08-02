@@ -40,12 +40,12 @@ export default {
       this.picId = id
       this.$router.push("/"+id)
     },
-    getAbsolutePosition(elm){
+    getAbsolutePosition(elm,appberHeight){
       const {left, top} = elm.getBoundingClientRect();
       const {left: bleft, top: btop} = document.body.getBoundingClientRect();
       return {
         left: left - bleft,
-        top: top - btop - 64 // appbarのheightを引く,
+        top: top - btop - appberHeight // appbarのheightを引く,
       }
     }
   },
@@ -62,7 +62,7 @@ export default {
     const src = component.src;
     console.log("src:",src)
 
-    const pos = this.getAbsolutePosition(component)
+    const pos = this.getAbsolutePosition(component,64) // 64 = appbarHeight
     console.log(pos)
 
     /* const boxRect = this.$refs.box.getBoundingClientRect()

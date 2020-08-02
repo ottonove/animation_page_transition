@@ -29,10 +29,19 @@ export default {
     }
   },
   methods: {
+    getAbsolutePosition(elm,appbarHeight){
+      const {left, top} = elm.getBoundingClientRect();
+      const {left: bleft, top: btop} = document.body.getBoundingClientRect();
+      return {
+        left: left - bleft,
+        top: top - btop - appbarHeight // appbarのheightを引く,
+      }
+    },
     setImageData() {
       const node = this.$refs.img;
       // const wrapRect = this.$refs.detail.getBoundingClientRect();
-      const itemRect = node.getBoundingClientRect();
+      const itemRect = this.getAbsolutePosition(node,64)
+      console.log("itemRect",itemRect)
  
       // 遷移後の画像の位置を取得
       const styleObj = {
