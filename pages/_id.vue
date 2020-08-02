@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="detail" class="detail">
     <h1>idとpassパラメータ取得</h1>
     <p>{{ id }}</p>
     <p>{{ pass }}</p>
@@ -53,19 +53,30 @@ export default {
       node.style.opacity = 0;
  
       // ダミー画像に情報を渡す
-      this.$nuxt.$emit('layoutImageMove', {
-        styleObj: styleObj,
-        node: node
-      });
- 
+      Promise.resolve(
+        this.$nuxt.$emit('layoutImageMove', {
+          styleObj: styleObj,
+          node: node
+        })
+      )
+
       // ページの不透明度を1にする
       anime({
-        targets: this.styleObj,
+        targets: this.$refs.detail,
         opacity: [0, 1],
         easing: 'easeInOutQuart',
-        duration: 800
+        duration: 800,
+        complete: ()=>{
+          console.log("detail show complete")
+        }
       });
     }
   }
 }
 </script>
+
+<style>
+.detail{
+  opacity: 0;
+}
+</style>
