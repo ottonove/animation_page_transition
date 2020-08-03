@@ -95,6 +95,10 @@ export default {
         next()
       }
     });
+  },
+  beforeRouteEnter(to, from, next) {
+    console.log("from.params.id:",from.params.id)
+    next()
   }
 }
 
