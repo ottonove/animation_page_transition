@@ -1,7 +1,7 @@
 <template>
   <div ref="detail" class="detail">
     <h1>詳細</h1>
-    <img :src=picList[this.id] ref="img" width="800">
+    <img :src=picList[this.id] ref="img" width="80%">
     <p>
     月日は百代(はくだい)の過客（かかく）にして、行きかふ年もまた旅人なり。舟の上に生涯を浮かべ、
 馬の口とらへて老を迎ある者は、日々旅にして、旅をすみかとす。古人も多く旅に死せるあり。

@@ -73,9 +73,10 @@ export default {
       styleObj: styleObj
     });
 
+    const scrollElement = window.document.scrollingElement || window.document.body || window.document.documentElement;
     // ページを上部に移動
     anime({
-      targets: '#__nuxt',
+      targets: scrollElement,
       scrollTop: 0,
       easing: 'easeInOutQuart',
       duration: 800,
