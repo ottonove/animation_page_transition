@@ -47,6 +47,40 @@ export default {
         left: left - bleft,
         top: top - btop - appberHeight // appbarのheightを引く,
       }
+    },
+    setImageData(picId) {
+      const node = this.$refs.targetImage;
+      // const wrapRect = this.$refs.content.getBoundingClientRect();
+      const itemRect = this.getAbsolutePosition(node[picId],64)
+      console.log("itemRect",itemRect)
+ 
+      // 遷移後の画像の位置を取得
+      const styleObj = {
+        top: `${itemRect.top/*  - wrapRect.top */}px`,
+        left: `${itemRect.left/*  - wrapRect.left */}px`,
+        width: `${node.clientWidth}px`
+      }
+ 
+      node.style.opacity = 0;
+ 
+      // ダミー画像に情報を渡す
+      Promise.resolve(
+        this.$nuxt.$emit('layoutImageMove', {
+          styleObj: styleObj,
+          node: node
+        })
+      ).then(()=>{
+        // ページの不透明度を1にする
+        anime({
+          targets: this.$refs.content,
+          opacity: [0, 1],
+          easing: 'easeInOutQuart',
+          duration: 800,
+          complete: ()=>{
+            console.log("content show complete")
+          }
+        });
+      })
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -88,7 +122,7 @@ export default {
 
     // ページの不透明度を0にアニメーション
     anime({
-      targets: this.$refs.list,
+      targets: this.$refs.content,
       opacity: [1, 0],
       easing: 'easeInOutQuart',
       duration: 800,
@@ -97,10 +131,7 @@ export default {
       }
     });
   },
-  beforeRouteEnter(to, from, next) {
-    console.log("from.params.id:",from.params.id)
-    next()
-  },
+
   beforeRouteEnter(to, from, next) {
     if(from.name === null) {
       next(vm => {
@@ -118,8 +149,9 @@ export default {
       });
     }
     else {
+      console.log("from.params.id:",from.params.id)
       // 遷移時にアニメーションを実行
-      next(vm => vm.setImageData());
+      next(vm => vm.setImageData(from.params.id));
     }
   },
 }
