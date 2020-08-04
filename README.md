@@ -24,5 +24,3 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 ## reference web site
 
 - https://b-risk.jp/blog/2019/12/nuxt-js/
-
-test comment
