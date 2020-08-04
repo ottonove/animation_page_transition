@@ -99,7 +99,28 @@ export default {
   beforeRouteEnter(to, from, next) {
     console.log("from.params.id:",from.params.id)
     next()
-  }
+  },
+  beforeRouteEnter(to, from, next) {
+    if(from.name === null) {
+      next(vm => {
+          //vm.styleObj.opacity = 1;
+          console.log("this:",vm)
+          anime({
+            targets: vm.$refs.detail,
+            opacity: [0, 1],
+            easing: 'easeInOutQuart',
+            duration: 800,
+            complete: ()=>{
+              console.log("detail show complete")
+            }
+          })
+      });
+    }
+    else {
+      // 遷移時にアニメーションを実行
+      next(vm => vm.setImageData());
+    }
+  },
 }
 
 </script>

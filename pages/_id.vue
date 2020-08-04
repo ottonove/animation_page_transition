@@ -1,7 +1,7 @@
 <template>
-  <div ref="detail" class="detail">
+  <div ref="content" class="content">
     <h1>詳細</h1>
-    <img :src=picList[this.id] ref="img" width="80%">
+    <img :src=picList[this.id] ref="targetImage" width="80%">
     <p>
     月日は百代(はくだい)の過客（かかく）にして、行きかふ年もまた旅人なり。舟の上に生涯を浮かべ、
 馬の口とらへて老を迎ある者は、日々旅にして、旅をすみかとす。古人も多く旅に死せるあり。
@@ -28,18 +28,19 @@ export default {
       picList: ["img01@2x.jpg", "img02@2x.jpg", "img03@2x.jpg", "img04@2x.jpg", "img05@2x.jpg"]
     }
   },
+  
   beforeRouteEnter(to, from, next) {
     if(from.name === null) {
       next(vm => {
           //vm.styleObj.opacity = 1;
           console.log("this:",vm)
           anime({
-            targets: vm.$refs.detail,
+            targets: vm.$refs.content,
             opacity: [0, 1],
             easing: 'easeInOutQuart',
             duration: 800,
             complete: ()=>{
-              console.log("detail show complete")
+              console.log("content show complete")
             }
           })
       });
@@ -49,6 +50,54 @@ export default {
       next(vm => vm.setImageData());
     }
   },
+  
+  beforeRouteLeave(to, from, next) {
+    // クリックした記事の情報を取得
+    const component = this.$refs.targetImage
+
+    // 遷移前の画像の位置を取得
+    const src = component.src;
+    console.log("src:",src)
+
+    const pos = this.getAbsolutePosition(component,64) // 64 は appbarHeight。
+    console.log(pos)
+
+    const styleObj = {
+      top: `${pos.top}px`,
+      left: `${pos.left}px`,
+      width: `${component.clientWidth}px`,
+    }
+
+    // ダミー画像に位置と画像のURLを渡す
+    this.$nuxt.$emit('layoutImage', {
+      src: src,
+      styleObj: styleObj
+    });
+
+    const scrollElement = window.document.scrollingElement || window.document.body || window.document.documentElement;
+    // ページを上部に移動
+    anime({
+      targets: scrollElement,
+      scrollTop: 0,
+      easing: 'easeInOutQuart',
+      duration: 800,
+      complete: () => {
+        console.log("scrollTop complete")
+      }
+    });
+
+    // ページの不透明度を0にアニメーション
+    anime({
+      targets: this.$refs.content,
+      opacity: [1, 0],
+      easing: 'easeInOutQuart',
+      duration: 800,
+      complete: ()=>{
+        next()
+      }
+    });
+  },
+
   methods: {
     getAbsolutePosition(elm,appbarHeight){
       const {left, top} = elm.getBoundingClientRect();
@@ -59,8 +108,8 @@ export default {
       }
     },
     setImageData() {
-      const node = this.$refs.img;
-      // const wrapRect = this.$refs.detail.getBoundingClientRect();
+      const node = this.$refs.targetImage;
+      // const wrapRect = this.$refs.content.getBoundingClientRect();
       const itemRect = this.getAbsolutePosition(node,64)
       console.log("itemRect",itemRect)
  
@@ -82,12 +131,12 @@ export default {
       ).then(()=>{
         // ページの不透明度を1にする
         anime({
-          targets: this.$refs.detail,
+          targets: this.$refs.content,
           opacity: [0, 1],
           easing: 'easeInOutQuart',
           duration: 800,
           complete: ()=>{
-            console.log("detail show complete")
+            console.log("content show complete")
           }
         });
       })
@@ -97,7 +146,7 @@ export default {
 </script>
 
 <style>
-.detail{
+.content{
   opacity: 0;
 }
 </style>
