@@ -58,16 +58,16 @@ export default {
       const styleObj = {
         top: `${itemRect.top/*  - wrapRect.top */}px`,
         left: `${itemRect.left/*  - wrapRect.left */}px`,
-        width: `${node.clientWidth}px`
+        width: `${node[picId].clientWidth}px`
       }
  
-      node.style.opacity = 0;
+      //node.style.opacity = 0;
  
       // ダミー画像に情報を渡す
       Promise.resolve(
         this.$nuxt.$emit('layoutImageMove', {
           styleObj: styleObj,
-          node: node
+          node: node[picId]
         })
       ).then(()=>{
         // ページの不透明度を1にする
