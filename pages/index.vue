@@ -3,14 +3,15 @@
     column
     justify-center
     align-center
-    ref="list"
+    ref="content"
+    class="content"
   >
       <v-col
         v-for="(pic, i) in picList"
         :key="i"
         class="my-16"
       >
-        <img :src=pic ref="item" :id=i @click="next(i)" width="300" />
+        <img :src=pic ref="targetImage" :id=i @click="next(i)" width="300" />
       </v-col>
 
   </v-layout>
@@ -50,7 +51,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     // クリックした記事の情報を取得
-    const component = this.$refs.item.find((x) => {
+    const component = this.$refs.targetImage.find((x) => {
         return x.id === String(this.picId)
     });
 
@@ -106,12 +107,12 @@ export default {
           //vm.styleObj.opacity = 1;
           console.log("this:",vm)
           anime({
-            targets: vm.$refs.detail,
+            targets: vm.$refs.content,
             opacity: [0, 1],
             easing: 'easeInOutQuart',
             duration: 800,
             complete: ()=>{
-              console.log("detail show complete")
+              console.log("content show complete")
             }
           })
       });
@@ -124,3 +125,10 @@ export default {
 }
 
 </script>
+
+
+<style>
+.content{
+  opacity: 0;
+}
+</style>
