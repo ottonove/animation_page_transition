@@ -6,7 +6,7 @@
       :clipped="clipped"
       fixed
       app
-      id="drawer"
+      id="v-drawer"
     >
       <v-list>
         <v-list-item
@@ -29,7 +29,7 @@
       :clipped-left="clipped"
       fixed
       app
-      id="appbar"
+      id="v-appbar"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-btn
@@ -59,7 +59,7 @@
         <v-icon>mdi-menu</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-main>
+    <v-main id="v-main">
       <v-container>
         <nuxt />
         <img
