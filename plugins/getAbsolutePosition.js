@@ -1,8 +1,5 @@
-export const getAbsolutePosition = (elm,appberHeight) => {
+export const getAbsolutePosition = (elm) => {
     const drawer = document.getElementById("v-drawer")
-    //console.log("drawer.clientWidth:",drawer.clientWidth)
-    //console.log("drawer.offsetWidth:",drawer.offsetWidth)
-    console.log("drawer.style:",drawer.style.transform.match(/-?\d+/)[0])
     const drawerWidth = drawer.style.transform.match(/-?\d+/)[0] === "0" ? drawer.clientWidth : 0
 
     const {left, top} = elm.getBoundingClientRect();
@@ -15,8 +12,10 @@ export const getAbsolutePosition = (elm,appberHeight) => {
         resultLeft = left - bleft
     }
 
+    const appbar = document.getElementById("v-appbar")
+
     return {
         left: resultLeft,
-        top: top - btop - appberHeight // appbarのheightを引く,
+        top: top - btop - appbar.clientHeight
     }
 }

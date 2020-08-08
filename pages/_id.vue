@@ -61,7 +61,7 @@ export default {
     const src = component.src;
     console.log("src:",src)
 
-    const pos = getAbsolutePosition(component,64) // 64 は appbarHeight。
+    const pos = getAbsolutePosition(component)
     console.log(pos)
 
     const styleObj = {
@@ -101,18 +101,10 @@ export default {
   },
 
   methods: {
-    getAbsolutePosition(elm,appbarHeight){
-      const {left, top} = elm.getBoundingClientRect();
-      const {left: bleft, top: btop} = document.body.getBoundingClientRect();
-      return {
-        left: left - bleft,
-        top: top - btop - appbarHeight // appbarのheightを引く,
-      }
-    },
     setImageData() {
       const node = this.$refs.targetImage;
       // const wrapRect = this.$refs.content.getBoundingClientRect();
-      const itemRect = getAbsolutePosition(node,64)
+      const itemRect = getAbsolutePosition(node)
       console.log("itemRect",itemRect)
  
       // 遷移後の画像の位置を取得

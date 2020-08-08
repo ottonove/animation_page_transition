@@ -46,7 +46,7 @@ export default {
       node[picId].style.opacity = 0
       console.log("setImageData node[picId]:", node[picId].style)
       // const wrapRect = this.$refs.content.getBoundingClientRect();
-      const itemRect = getAbsolutePosition(node[picId],64)
+      const itemRect = getAbsolutePosition(node[picId])
       console.log("itemRect",itemRect)
  
       // 遷移後の画像の位置を取得
@@ -88,7 +88,7 @@ export default {
     const src = component.src;
     console.log("src:",src)
 
-    const pos = getAbsolutePosition(component,64) // 64 は appbarHeight。
+    const pos = getAbsolutePosition(component)
     console.log(pos)
 
     const styleObj = {
