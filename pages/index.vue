@@ -20,6 +20,7 @@
 <script>
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import { getAbsolutePosition } from '~/plugins/getAbsolutePosition'
 
 import anime from 'animejs/lib/anime.es.js'
 
@@ -40,18 +41,10 @@ export default {
       this.picId = id
       this.$router.push("/"+id)
     },
-    getAbsolutePosition(elm,appberHeight){
-      const {left, top} = elm.getBoundingClientRect();
-      const {left: bleft, top: btop} = document.body.getBoundingClientRect();
-      return {
-        left: left - bleft,
-        top: top - btop - appberHeight // appbarのheightを引く,
-      }
-    },
     setImageData(picId) {
       const node = this.$refs.targetImage;
       // const wrapRect = this.$refs.content.getBoundingClientRect();
-      const itemRect = this.getAbsolutePosition(node[picId],64)
+      const itemRect = getAbsolutePosition(node[picId],64)
       console.log("itemRect",itemRect)
  
       // 遷移後の画像の位置を取得
@@ -93,7 +86,7 @@ export default {
     const src = component.src;
     console.log("src:",src)
 
-    const pos = this.getAbsolutePosition(component,64) // 64 は appbarHeight。
+    const pos = getAbsolutePosition(component,64) // 64 は appbarHeight。
     console.log(pos)
 
     const styleObj = {
