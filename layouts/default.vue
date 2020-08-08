@@ -6,6 +6,7 @@
       :clipped="clipped"
       fixed
       app
+      id="drawer"
     >
       <v-list>
         <v-list-item
@@ -28,6 +29,7 @@
       :clipped-left="clipped"
       fixed
       app
+      id="appbar"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-btn
