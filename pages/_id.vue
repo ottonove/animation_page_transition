@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { getAbsolutePosition } from '~/plugins/getAbsolutePosition'
+
 import anime from 'animejs/lib/anime.es.js'
 
 export default {
@@ -59,7 +61,7 @@ export default {
     const src = component.src;
     console.log("src:",src)
 
-    const pos = this.getAbsolutePosition(component,64) // 64 は appbarHeight。
+    const pos = getAbsolutePosition(component,64) // 64 は appbarHeight。
     console.log(pos)
 
     const styleObj = {
@@ -110,7 +112,7 @@ export default {
     setImageData() {
       const node = this.$refs.targetImage;
       // const wrapRect = this.$refs.content.getBoundingClientRect();
-      const itemRect = this.getAbsolutePosition(node,64)
+      const itemRect = getAbsolutePosition(node,64)
       console.log("itemRect",itemRect)
  
       // 遷移後の画像の位置を取得

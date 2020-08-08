@@ -43,6 +43,8 @@ export default {
     },
     setImageData(picId) {
       const node = this.$refs.targetImage;
+      node[picId].style.opacity = 0
+      console.log("setImageData node[picId]:", node[picId].style)
       // const wrapRect = this.$refs.content.getBoundingClientRect();
       const itemRect = getAbsolutePosition(node[picId],64)
       console.log("itemRect",itemRect)
