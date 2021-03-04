@@ -85,6 +85,13 @@ export default {
     });
 
     // 遷移前の画像の位置を取得
+    console.log('コンポーネント:', component);
+  
+    if(!component) {
+      next();
+      return;
+    }
+  
     const src = component.src;
     console.log("src:",src)
 

@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 const readChunk = (file) => (chunkSize, offset) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader()
@@ -60,6 +62,9 @@ export default {
     },
 
     handleClick: async function(frameTime) {
+      const result = await axios("https://www.jma.go.jp/bosai/forecast/data/overview_forecast/240000.json");
+      console.log(result);
+
       console.log(frameTime);
       const base64Image = await this.getFrame(frameTime);
       console.log('getFrame:\n', base64Image);
