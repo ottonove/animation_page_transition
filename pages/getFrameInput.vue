@@ -1,19 +1,24 @@
 <template>
 <v-app>
 <div id="contents">
-  <!-- ファイルはstaticディレクトリに配置する-->
-  <!-- <video
-    src="/sample.mp4"
-    width="600"
-    height="300"
-    controls
-  >
-  </video> -->
-  <video></video>
+  <div>
+    <v-btn @click="fetchAPI">fetch api</v-btn>
+  </div>
+  <hr />
+  <table>
+    <tr>
+      <td>
+        <video></video>
+      </td>
+      <td>
+        <img :src=base64Image />
+      </td>
+    </tr>
+  </table>
+  
   <input type="file" @change="handleInput" />
   <input type="number" class="p2p_scl" @change="handleChange" />
   <v-btn @click="handleClick(frameTime)">getFrame</v-btn>
-  <img :src=base64Image />
 </div>
 </v-app>
 </template>
@@ -55,6 +60,10 @@ export default {
   },
 
   methods: {
+    fetchAPI: async function() {
+      const result = await axios("https://www.jma.go.jp/bosai/forecast/data/overview_forecast/240000.json");
+      console.log(result);
+    },
 
     handleChange: function(e) {
       console.log(e.target.value);
@@ -62,9 +71,6 @@ export default {
     },
 
     handleClick: async function(frameTime) {
-      const result = await axios("https://www.jma.go.jp/bosai/forecast/data/overview_forecast/240000.json");
-      console.log(result);
-
       console.log(frameTime);
       const base64Image = await this.getFrame(frameTime);
       console.log('getFrame:\n', base64Image);
@@ -96,8 +102,9 @@ export default {
       console.log(analyzeResult.media.track[1]);
       this.videoInfo = analyzeResult.media.track[1];
 
-      videoElement.width = this.videoInfo.Width * 0.5;
-      videoElement.height = this.videoInfo.Height * 0.5;
+      const ratio = 0.2;
+      videoElement.width = this.videoInfo.Width * ratio;
+      videoElement.height = this.videoInfo.Height * ratio;
       // videoElement.src = window.URL.createObjectURL(blob);
       videoElement.src = window.URL.createObjectURL(event.target.files[0]);
       // this.videoElement = videoElement;
