@@ -1,14 +1,28 @@
 <template>
 <v-app>
 <div id="contents">
-  <div>
+  <div class="space">
     <v-btn @click="fetchAPI">fetch api</v-btn>
   </div>
   <hr />
   <table>
     <tr>
+      <th
+        width="400"
+      >
+        動画
+      </th>
+      <th
+        width="400"
+      >
+        静止画
+      </th>
+    </tr>
+    <tr>
       <td>
-        <video></video>
+        <video
+          controls
+        ></video>
       </td>
       <td>
         <img :src=base64Image />
@@ -16,9 +30,15 @@
     </tr>
   </table>
   
-  <input type="file" @change="handleInput" />
-  <input type="number" class="p2p_scl" @change="handleChange" />
-  <v-btn @click="handleClick(frameTime)">getFrame</v-btn>
+  <div class="space">
+    <input type="file" @change="handleInput" />
+  </div>
+  <div class="space">
+    再生位置(秒)<input type="number" class="p2p_scl" @change="handleChange" />
+  </div>
+  <div class="space">
+    <v-btn color="primary" @click="handleClick(frameTime)">getFrame</v-btn>
+  </div>
 </div>
 </v-app>
 </template>
@@ -50,7 +70,7 @@ export default {
   data: function () {
     return({
       frameTime: 0,
-      base64Image: "/v.png",
+      base64Image: "",
       videoInfo: null
     })
   },
@@ -121,29 +141,11 @@ export default {
       const context = canvas.getContext('2d');
 
       // 1つ前に設定したframeTimeの画像がbase64Imageとして生成される
-      // videoElement.currentTime = frameTime;
+      videoElement.currentTime = frameTime;
       // console.log('videoElement.currentTime:', videoElement.currentTime);
-      // /* await */ context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-      // base64Image = /* await */ canvas.toDataURL();
+      /* await */ context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+      base64Image = /* await */ canvas.toDataURL();
 
-      // これを正しくさせたい
-      const videoSeek = () => {
-        return new Promise((resolve) => {
-          videoElement.addEventListener('seeked', (e) => {
-              console.log('videoElement.currentTime:', videoElement.currentTime);
-              // console.log("frameTime:", frameTime);
-              // console.log('getFrame drawImage 0:', base64Image);
-              context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-              base64Image = canvas.toDataURL();
-              // console.log('getFrame drawImage:', this.base64Image);
-              resolve();
-          }, {once: true});
-          videoElement.currentTime = frameTime;
-        })
-      };
-      await videoSeek();
-
-      
       // videoElement.addEventListener('seeked', (e) => {
       //     console.log('videoElement.currentTime:', videoElement.currentTime);
       //     // console.log("frameTime:", frameTime);
@@ -155,7 +157,23 @@ export default {
       // }, {once: true});
       // videoElement.currentTime = frameTime;
       // // console.log('getFrame drawImage2:', base64Image);
-     
+
+      // これを正しくさせたい
+      // const videoSeek = () => {
+      //   return new Promise((resolve) => {
+      //     videoElement.addEventListener('seeked', (e) => {
+      //         console.log('videoElement.currentTime:', videoElement.currentTime);
+      //         // console.log("frameTime:", frameTime);
+      //         // console.log('getFrame drawImage 0:', base64Image);
+      //         context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+      //         base64Image = canvas.toDataURL();
+      //         // console.log('getFrame drawImage:', this.base64Image);
+      //         resolve();
+      //     }, {once: true});
+      //     videoElement.currentTime = frameTime;
+      //   })
+      // };
+      // await videoSeek();
 
       return base64Image;
     }
@@ -165,4 +183,5 @@ export default {
 
 <style>
   input.p2p_scl{ width:60px; border:1px solid #888}
+  div.space{margin:10px;}
 </style>
